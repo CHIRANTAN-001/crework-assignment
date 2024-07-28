@@ -1,0 +1,17 @@
+.formBg {
+  background: linear-gradient(180deg, #ffffff 0%, #afa3ff 100%);
+}
+.formBg1{
+    background: linear-gradient(180deg, #F7F7F7 0%, #F0F0F0 100%);
+}
+.inpufieldBg {
+  background: #ebebeb;
+}
+.authButtonBg {
+  background: linear-gradient(360deg, #4b36cc 0%, #9c93d4 107.69%);
+  border: 1px solid;
+
+  border-image-source: linear-gradient(180deg, #4C38C2 0%, #2F2188 100%),
+linear-gradient(0deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3));
+;
+}

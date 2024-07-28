@@ -41,7 +41,7 @@ export const registerUser = async (req, res) => {
 
     if (user) {
         const token = generateToken(user._id)
-        // res.cookie('token', token, COOKIE_OPTIONS)
+        res.cookie('token', token, COOKIE_OPTIONS)
         res.status(201).json({
             data: {
                 _id: user._id,
