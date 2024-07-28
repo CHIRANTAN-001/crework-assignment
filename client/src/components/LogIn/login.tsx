@@ -4,12 +4,31 @@ import '../../styles/style.css'
 import Input from '../InputField/Input'
 import AuthButton from '../AuthButton/AuthButton'
 import Link from 'next/link'
+import { Login } from '@/apis/authApi'
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation'
 
 const LoginComponent = () => {
 
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
+
+    const router = useRouter();
+
+    const handleLogin = async () => { 
+        setLoading(true);
+        try {
+            const res = await Login({ email, password });
+            console.log(res)
+            Cookies.set('token', res.data.token, { expires: 7 })
+            router.push('/')
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setLoading(false);
+        }
+    }
 
     return (
         <div className='formBg h-screen'>
@@ -31,7 +50,7 @@ const LoginComponent = () => {
                         />
                         <AuthButton
                             placeholder='Login'
-                            // onClick={handleSignup}
+                            onClick={handleLogin}
                             disabled={loading}
                         />
                         <div className='pt-2 pb-5'>
@@ -44,4 +63,4 @@ const LoginComponent = () => {
     )
 }
 
-export default LoginComponent
+export default LoginComponent;

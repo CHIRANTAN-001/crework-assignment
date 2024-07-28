@@ -5,6 +5,8 @@ import Input from '../InputField/Input'
 import AuthButton from '../AuthButton/AuthButton'
 import Link from 'next/link'
 import { Signup } from '@/apis/authApi'
+import Cookies from 'js-cookie' 
+import { useRouter } from 'next/navigation'
 
 const SignupComponent = () => {
 
@@ -13,11 +15,15 @@ const SignupComponent = () => {
     const [password, setPassword] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
 
+    const router = useRouter();
+
     const handleSignup = async () => {
         setLoading(true);
         try {
             const res = await Signup({ name: fullName, email, password });
-            console.log(res)
+            console.log(res.data)
+            Cookies.set('token', res.data.token, { expires: 7 })
+            router.push('/')
         } catch (error) {
             console.log(error)
         } finally {

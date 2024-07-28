@@ -81,6 +81,7 @@ export const login = async (req, res) => {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
+                token: generateToken(user._id)
             },
             message: "User logged in successfully"
         })
