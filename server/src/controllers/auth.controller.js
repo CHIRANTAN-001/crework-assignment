@@ -4,6 +4,7 @@ import generateToken from "../utils/generateToken.js";
 const COOKIE_OPTIONS = {
     httpOnly: true,
     secure: true,
+    sameSite: 'none',
     maxAge: 30 * 24 * 60 * 60 * 1000
 };
 
