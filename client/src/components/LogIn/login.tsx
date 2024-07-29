@@ -7,24 +7,40 @@ import Link from 'next/link'
 import { Login } from '@/apis/authApi'
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
 
 const LoginComponent = () => {
 
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
 
     const router = useRouter();
 
     const handleLogin = async () => { 
+        setError(null);
+
+        if (!email || !password) {
+            setError('Please fill all fields');
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setError('Please enter a valid email address');
+            return;
+        }
+
         setLoading(true);
         try {
             const res = await Login({ email, password });
-            console.log(res)
+            console.log(res.data)
             Cookies.set('token', res.data.token, { expires: 7 })
-            router.push('/')
+            router.push('/dashboard')
         } catch (error) {
             console.log(error)
+            setError('Login failed. Please check your credentials and try again.');
         } finally {
             setLoading(false);
         }
@@ -53,9 +69,14 @@ const LoginComponent = () => {
                             onClick={handleLogin}
                             disabled={loading}
                         />
-                        <div className='pt-2 pb-5'>
-                            <span className='text-sm text-gray-600'>Don't have an account? Create a <Link href='/signup' className='text-blue-700 cursor-pointer'>new account</Link>.</span>
+                    </div>
+                    {error && (
+                        <div className='text-red-500 text-sm pl-16 pt-2 font-medium'>
+                            {error}
                         </div>
+                    )}
+                    <div className='pt-2 pb-5 flex justify-center items-center'>
+                        <span className='text-sm text-gray-600'>Don't have an account? Create a <Link href='/signup' className='text-blue-700 cursor-pointer'>new account</Link>.</span>
                     </div>
                 </div>
             </div>

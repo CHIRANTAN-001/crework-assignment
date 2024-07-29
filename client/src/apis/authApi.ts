@@ -30,7 +30,7 @@ export const Login = async ({ email, password }: LoginParams): Promise<any> => {
             email,
             password
         })
-        return res;
+        return res.data;
     } catch (error: any) {
         throw new Error(error)
     }
